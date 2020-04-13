@@ -6,20 +6,29 @@ class GildedRose
 
   def update_quality()
     @items.each do |item|
-      update_item(item)
+      real =  Real_Item.new(item)
+      real.update_item
     end
   end
 
   private
 
-  def update_item(item)
+end
+
+class Real_Item
+  def initialize(item)
+    @item = item
+  end
+
+  def update_item()
+    item = @item
     if item.name != "Aged Brie" and item.name != "Backstage passes to a TAFKAL80ETC concert"
       if item.quality > 0
         if item.name != "Sulfuras, Hand of Ragnaros"
           item.quality = item.quality - 1
         end
       end
-    else
+    else #brie or ticket
       if item.quality < 50
         item.quality = item.quality + 1
         if item.name == "Backstage passes to a TAFKAL80ETC concert"
@@ -47,16 +56,17 @@ class GildedRose
               item.quality = item.quality - 1
             end
           end
-        else
+        else # ticket
           item.quality = item.quality - item.quality
         end
-      else
+      else # Brie
         if item.quality < 50
           item.quality = item.quality + 1
         end
       end
     end
   end
+
 end
 
 class Item
